@@ -27,31 +27,15 @@
     <script>
         let demo = new SelectCheckBox({
             el: document.querySelector('.SelectXcheckBox'),
-            data: [{
-                name: '我们',
-                value: 'm'
-            }, {
-                name: 'sfsdf',
-                value: 12
-            }, {
-                name: '我们',
-                value: 'm'
-            }, {
-                name: 'sfsdf',
-                value: 12
-            }, {
-                name: '我们',
-                value: 'm'
-            }, {
-                name: 'sfsdf',
-                value: 12
-            }, {
-                name: '我们',
-                value: 'm'
-            }, {
-                name: 'sfsdf',
-                value: 12
-            }],
+            data: [
+                {name: "苹果", value: 'apple'},
+                {name: "香蕉", value: 'Banana'},
+                {name: "梨", value: 'Pears'},
+                {name: "西瓜", value: 'watermelon'},
+                {name: "草莓", value: 'strawberry'},
+                {name: "葡萄", value: 'grape'},
+                {name: "菠萝", value: 'Pineapple'},
+            ],
             onChange: function(v){
                 console.log(v)
             }

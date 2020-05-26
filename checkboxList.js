@@ -2,7 +2,7 @@ function SelectCheckBox(options) {
     let _this = this;
     this.el = options.el;
     let s = ` <div class="InputContainer">
-    <input class="selectInput" data-id="sel" type="text" readonly>
+    <input style="padding-right:35px" class="selectInput" data-id="sel" type="text" readonly>
     </div>
     <svg style="width: 35px;
     height: 30px;
@@ -20,7 +20,7 @@ function SelectCheckBox(options) {
     for (const item of options.data) {
         if (item instanceof Object){
             str +=
-            `<li class="selectLi" data-id="sel"><label data-id="sel"><input data-id="sel" class="checkBox" type="checkbox" name="${item.value}" > <span data-id="sel">${item.name}</span></label> </li>`
+            `<li class="selectLi" data-id="sel"><label data-id="sel"><input data-id="sel" class="checkBox" type="checkbox" name="${item.name}" value="${item.value}" > <span data-id="sel">${item.name}</span></label> </li>`
         }
     }
        
@@ -41,17 +41,35 @@ function SelectCheckBox(options) {
         }
     }
     let checkBoxs = Array.from(_this.el.querySelectorAll('input[type=checkbox]'));
+    this.checkedList = [];
     checkBoxs.forEach(item=>{
         item.onchange = function(){
             let isChecked = this.checked;
             isChecked ? this.parentElement.classList.add('checked') : this.parentElement.classList.remove('checked');
             if (this.value === 'allCheck'){
-                checkBoxs.forEach(item=>{item.checked = isChecked});
+                if(isChecked){
+                    checkBoxs.slice(1).forEach(item=>{
+                        item.parentElement.classList.add('checked');
+                        _this.checkedList.indexOf(item.name) === -1 ? _this.checkedList.push(item.name) : '';
+                    })
+                } else{
+                    checkBoxs.slice(1).forEach(item=>{
+                        item.parentElement.classList.remove('checked');
+                    })
+                    _this.checkedList = [];
+                }
+                checkBoxs.forEach(item=>{
+                    item.checked = isChecked; 
+                });
             } else{
+                if (this.name){
+                    isChecked ? _this.checkedList.push(this.name):_this.checkedList.splice(_this.checkedList.indexOf(this.name), 1);
+                }
                 checkBoxs[0].checked = checkBoxs.slice(1).every(check=>{
                     return check.checked
                 })
             }
+            document.getElementsByClassName('selectInput')[0].value = _this.checkedList
             options.onChange(_this.values())
         }
     })
