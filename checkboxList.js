@@ -43,7 +43,6 @@ function SelectCheckBox(options) {
     let checkBoxs = Array.from(_this.el.querySelectorAll('input[type=checkbox]'));
     checkBoxs.forEach(item=>{
         item.onchange = function(){
-            console.log(this.parentElement)
             let isChecked = this.checked;
             isChecked ? this.parentElement.classList.add('checked') : this.parentElement.classList.remove('checked');
             if (this.value === 'allCheck'){
@@ -53,33 +52,16 @@ function SelectCheckBox(options) {
                     return check.checked
                 })
             }
+            options.onChange(_this.values())
         }
     })
 }
 SelectCheckBox.prototype.values = function(){
     let list = [];
-    Array.from(this.selectBoxContent.querySelectorAll('input[type=checkbox]')).forEach(t=>{
+    Array.from(this.selectBoxContent.querySelectorAll('input[type=checkbox]')).slice(1).forEach(t=>{
         if (t.checked){
             list.push(t.name)
         }
     })
     return list;
 }
-
-let demo = new SelectCheckBox({
-    el: document.querySelector('.SelectXcheckBox'),
-    data: [{name: '我们', value: 'm'},{name: 'sfsdf', value: 12},{name: '我们', value: 'm'},{name: 'sfsdf', value: 12},{name: '我们', value: 'm'},{name: 'sfsdf', value: 12},{name: '我们', value: 'm'},{name: 'sfsdf', value: 12}]
-})
-console.log(demo.values())
-
-new SelectCheckBox({
-    el: document.querySelector('.SelectXcheckBox'),
-    data: [{name: '我们', value: 'm'},{name: 'sfsdf', value: 12},{name: '我们', value: 'm'},{name: 'sfsdf', value: 12},{name: '我们', value: 'm'},{name: 'sfsdf', value: 12},{name: '我们', value: 'm'},{name: 'sfsdf', value: 12}]
-})
-
-
-
-new SelectCheckBox({
-    el: document.querySelector('.SelectXcheckBox'),
-    data: [{name: '们dddddddddddd', value: 'm'},{name: 'sfsdf', value: 12},{name: '我们', value: 'm'},{name: 'sfsdf', value: 12},{name: '我们', value: 'm'},{name: 'sfsdf', value: 12},{name: '我们', value: 'm'},{name: 'sfsdf', value: 12}]
-})

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,14 +14,51 @@
 
 
 
+    <div style="width: 800px;">
+        <div class="SelectXcheckBox" style="float: left;">
 
-    <div class="SelectXcheckBox">
+        </div>
+        <button id="getValues" style="margin-top: 30px;">获取values</button>
+        <span id="values"></span>
     </div>
 
 
     <script src="./checkboxList.js"></script>
     <script>
-        
+        let demo = new SelectCheckBox({
+            el: document.querySelector('.SelectXcheckBox'),
+            data: [{
+                name: '我们',
+                value: 'm'
+            }, {
+                name: 'sfsdf',
+                value: 12
+            }, {
+                name: '我们',
+                value: 'm'
+            }, {
+                name: 'sfsdf',
+                value: 12
+            }, {
+                name: '我们',
+                value: 'm'
+            }, {
+                name: 'sfsdf',
+                value: 12
+            }, {
+                name: '我们',
+                value: 'm'
+            }, {
+                name: 'sfsdf',
+                value: 12
+            }],
+            onChange: function(v){
+                console.log(v)
+            }
+        })
+        getValues.onclick = function () {
+            values.innerHTML = demo.values();
+        }
     </script>
 </body>
 
