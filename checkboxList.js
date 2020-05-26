@@ -20,7 +20,7 @@ function SelectCheckBox(options) {
     for (const item of options.data) {
         if (item instanceof Object){
             str +=
-            `<li class="selectLi" data-id="sel"><label data-id="sel"><input data-id="sel" class="checkBox" type="checkbox" name="${item.value}" > <span>${item.name}</span></label> </li>`
+            `<li class="selectLi" data-id="sel"><label data-id="sel"><input data-id="sel" class="checkBox" type="checkbox" name="${item.value}" > <span data-id="sel">${item.name}</span></label> </li>`
         }
     }
        
