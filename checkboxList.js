@@ -65,9 +65,11 @@ function SelectCheckBox(options) {
                 if (this.name){
                     isChecked ? _this.checkedList.push(this.name):_this.checkedList.splice(_this.checkedList.indexOf(this.name), 1);
                 }
-                checkBoxs[0].checked = checkBoxs.slice(1).every(check=>{
-                    return check.checked
-                })
+                let isAllChecked = checkBoxs.slice(1).every(check => {
+                    return check.checked;
+                });
+                checkBoxs[0].checked = isAllChecked;
+                isAllChecked ? checkBoxs[0].parentElement.classList.add('checked'):checkBoxs[0].parentElement.classList.remove('checked')
             }
             document.getElementsByClassName('selectInput')[0].value = _this.checkedList
             options.onChange(_this.values())
