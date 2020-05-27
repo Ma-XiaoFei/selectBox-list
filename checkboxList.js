@@ -1,10 +1,11 @@
+/* eslint-disable */
 function SelectCheckBox(options) {
     let _this = this;
     this.el = options.el;
     let s = ` <div class="InputContainer">
     <input placeholder="请选择" style="padding:6px 35px 6px 10px" class="selectInput" data-id="sel" type="text" readonly>
     </div>
-    <svg style="width: 35px;
+    <svg style="width: 25px;
     height: 30px;
     position: absolute;
     right: 0;top: 0;" t="1590400200277" class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -32,16 +33,19 @@ function SelectCheckBox(options) {
     div.innerHTML = str;
     this.selectBoxContent.appendChild(div)
     this.el.appendChild(this.selectBoxContent);
-    document.getElementsByClassName('selectInput')[0].onfocus = function () {
+    this.el.getElementsByClassName('selectInput')[0].onfocus = function () {
         _this.selectBoxContent.style.display = 'block'
     }
     document.onclick = function (e) {
         if (e.target.getAttribute('data-id') !== 'sel') {
-            _this.selectBoxContent.style.display = 'none'
+            Array.from(document.getElementsByClassName('selectBoxContent')).forEach(item=>{
+                item.style.display = 'none';
+            })
         }
     }
     let checkBoxs = Array.from(_this.el.querySelectorAll('input[type=checkbox]'));
     this.checkedList = [];
+    this.checkedValList = [];
     checkBoxs.forEach(item=>{
         item.onchange = function(){
             let isChecked = this.checked;
@@ -51,12 +55,16 @@ function SelectCheckBox(options) {
                     checkBoxs.slice(1).forEach(item=>{
                         item.parentElement.classList.add('checked');
                         _this.checkedList.indexOf(item.name) === -1 ? _this.checkedList.push(item.name) : '';
+                        _this.checkedValList.indexOf(item.value) === -1 ? _this.checkedValList.push(item.value) : '';
                     })
+                    _this.el.getElementsByClassName('selectInput')[0].setAttribute('data-value', _this.checkedValList.toString());
                 } else{
                     checkBoxs.slice(1).forEach(item=>{
                         item.parentElement.classList.remove('checked');
                     })
                     _this.checkedList = [];
+                    _this.checkedValList = [];
+                    _this.el.getElementsByClassName('selectInput')[0].setAttribute('data-value', '');
                 }
                 checkBoxs.forEach(item=>{
                     item.checked = isChecked; 
@@ -64,6 +72,8 @@ function SelectCheckBox(options) {
             } else{
                 if (this.name){
                     isChecked ? _this.checkedList.push(this.name):_this.checkedList.splice(_this.checkedList.indexOf(this.name), 1);
+                    isChecked ? _this.checkedValList.push(this.value):_this.checkedValList.splice(_this.checkedValList.indexOf(this.value), 1);
+                    _this.el.getElementsByClassName('selectInput')[0].setAttribute('data-value', _this.checkedValList.toString());
                 }
                 let isAllChecked = checkBoxs.slice(1).every(check => {
                     return check.checked;
@@ -71,12 +81,21 @@ function SelectCheckBox(options) {
                 checkBoxs[0].checked = isAllChecked;
                 isAllChecked ? checkBoxs[0].parentElement.classList.add('checked'):checkBoxs[0].parentElement.classList.remove('checked')
             }
-            document.getElementsByClassName('selectInput')[0].value = _this.checkedList
-            options.onChange(_this.values())
+           _this.el.getElementsByClassName('selectInput')[0].value = _this.checkedList
+            options.onChange && options.onChange(_this.values())
         }
     })
 }
 SelectCheckBox.prototype.values = function(){
+    let list = [];
+    Array.from(this.selectBoxContent.querySelectorAll('input[type=checkbox]')).slice(1).forEach(t=>{
+        if (t.checked){
+            list.push({value:t.value,name:t.name})
+        }
+    })
+    return list;
+}
+SelectCheckBox.prototype.checkeds = function(){
     let list = [];
     Array.from(this.selectBoxContent.querySelectorAll('input[type=checkbox]')).slice(1).forEach(t=>{
         if (t.checked){
