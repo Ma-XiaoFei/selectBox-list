@@ -2,6 +2,7 @@
 function SelectCheckBox(options) {
     let _this = this;
     this.el = options.el;
+    this.isShowAllCheck = options.isShowAllCheck;
     let s = ` <div class="InputContainer">
     <input placeholder="请选择" style="padding:6px 35px 6px 10px" class="selectInput" data-id="sel" type="text" readonly>
     </div>
@@ -16,7 +17,7 @@ function SelectCheckBox(options) {
     </svg>`;
     this.el.innerHTML = s;
     let str =
-        `<div><label data-id="sel"><input type="checkbox" value="allCheck" class="allCheck" data-id="sel"> <span data-id="sel" style="color: red;">全选</span></label></div><ul>`;
+        `<div ${!this.isShowAllCheck?'hidden':''}><label data-id="sel"><input type="checkbox" value="allCheck" class="allCheck" data-id="sel"> <span data-id="sel" style="color: red;">全选</span></label></div><ul>`;
     
     for (const item of options.data) {
         if (item instanceof Object){
@@ -24,7 +25,9 @@ function SelectCheckBox(options) {
             `<li class="selectLi" data-id="sel"><label data-id="sel"><input data-id="sel" class="checkBox" type="checkbox" name="${item.name}" value="${item.value}" > <span data-id="sel">${item.name}</span></label> </li>`
         }
     }
-       
+    if (!options.data.length){
+        str +=  `<li style="color:#ccc; text-align:center">无数据</li>`
+    }
 
     str += '</ul>'
     this.selectBoxContent = document.createElement('div');
