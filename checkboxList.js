@@ -2,7 +2,7 @@ function SelectCheckBox(options) {
     let _this = this;
     this.el = options.el;
     let s = ` <div class="InputContainer">
-    <input style="padding-right:35px" class="selectInput" data-id="sel" type="text" readonly>
+    <input placeholder="请选择" style="padding:6px 35px 6px 10px" class="selectInput" data-id="sel" type="text" readonly>
     </div>
     <svg style="width: 35px;
     height: 30px;
@@ -80,7 +80,7 @@ SelectCheckBox.prototype.values = function(){
     let list = [];
     Array.from(this.selectBoxContent.querySelectorAll('input[type=checkbox]')).slice(1).forEach(t=>{
         if (t.checked){
-            list.push(t.name)
+            list.push(t.value)
         }
     })
     return list;
